@@ -21,6 +21,8 @@ builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddScoped<CountryController, CountryController>();
+builder.Services.AddScoped<UserController, UserController>();
+
 
 builder.Services.AddAuthentication(options =>
 {
