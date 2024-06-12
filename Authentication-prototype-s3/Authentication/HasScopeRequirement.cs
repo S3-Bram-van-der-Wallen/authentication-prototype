@@ -4,8 +4,8 @@ namespace Authentication_prototype_s3.Authentication;
 
 public class HasScopeRequirement : IAuthorizationRequirement
 {
-    public string Issuer { get; }
     public string Scope { get; }
+    public string Issuer { get; }
 
     public HasScopeRequirement(string scope, string issuer)
     {
