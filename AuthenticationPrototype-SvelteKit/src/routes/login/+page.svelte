@@ -1,7 +1,33 @@
-<script lang="ts">
-    let email: string;
-    let password: string;
-  </script>
+<script>
+  import { goto } from '$app/navigation';
+  import { firebaseAuth } from '$lib/firebase';
+  import { authUser } from '$lib/authStore';
+
+  let email;
+  let password;
+
+  let success = undefined;
+
+
+const login = () => {
+    signInWithEmailAndPassword(firebaseAuth, email, password)
+      .then(() => {
+        $authUser = {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email || ''
+        };
+      
+        goto('/protected');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+
+        success = false;
+      });
+  };
+</script>
   
   <form
     class="flex flex-col gap-4 p-8 space-y-4 bg-white sm:w-10/12"
