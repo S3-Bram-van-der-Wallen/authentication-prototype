@@ -17,18 +17,22 @@ public class CountryController : Controller
         _context = userContext;
     }
 
-    [HttpGet("countries")]
-    public async Task<ActionResult<IEnumerable<Country>>> GetCountriesAsync()
+    [HttpGet("countries/{id}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<Country>>> GetUserCountries(Guid id)
     {
+        var user = await _context.Users.FindAsync(id);
         var countries = await _context.Countries
-                .Select(c => new Country
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                    UserId = c.UserId,
-                    User = c.User,
-                }).ToListAsync();
+            .Where(c => c.UserId == id)
+            .Select(c => new Country
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                UserId = c.UserId,
+                User = c.User,
+            }).ToListAsync();
+
         return Ok(countries);
     }
 }
