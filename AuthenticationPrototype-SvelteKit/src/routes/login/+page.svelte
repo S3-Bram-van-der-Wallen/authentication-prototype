@@ -1,5 +1,6 @@
 <script>
   import { goto } from '$app/navigation';
+  import { signInWithEmailAndPassword } from 'firebase/auth';
   import { firebaseAuth } from '$lib/firebase';
   import { authUser } from '$lib/authStore';
 
@@ -11,18 +12,18 @@
 
 const login = () => {
     signInWithEmailAndPassword(firebaseAuth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         $authUser = {
           uid: userCredential.user.uid,
           email: userCredential.user.email || ''
         };
-      
         goto('/protected');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+        console.log(userCredential);
 
         success = false;
       });
