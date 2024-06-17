@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 firebase_variables.json
+serviceAccountKey.json

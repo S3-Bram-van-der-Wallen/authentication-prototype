@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 
 namespace Authentication_prototype_s3.Controllers;
 
 [ApiController]
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private readonly UserContext _context;
     private readonly IConfiguration _configuration;
@@ -17,23 +18,10 @@ public class AuthController : Controller
         _configuration = configuration;
     }
 
-    [HttpGet("private")]
+    [HttpGet("test")]
     [Authorize]
-    public IActionResult Private()
+    public IActionResult GetData()
     {
-        return Ok(new
-        {
-            Message = "Hello from a private endpoint!"
-        });
-    }
-
-    [HttpGet("private-scoped")]
-    [Authorize("read:messages")]
-    public IActionResult Scoped()
-    {
-        return Ok(new
-        {
-            Message = "Hello from a private-scoped endpoint!"
-        });
+        return Ok("Secure data");
     }
 }
